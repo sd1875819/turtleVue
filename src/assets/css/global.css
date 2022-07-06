@@ -1,0 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*
+*表示对全局元素的样式进行定义*/
