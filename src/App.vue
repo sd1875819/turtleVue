@@ -1,30 +1,33 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div>
+    <!--头部-->
+    <Header/>
+    <!--主体-->
+    <div style="display: flex">
+      <!--主体的左侧菜边栏-->
+      <Aside/>
+      <!--主体的右侧内容-->
+      <router-view style="flex: 1"></router-view>
+    </div>
+  </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
+
+<script>
+  import Header from "@/components/Header";
+  import Aside from "@/components/Aside";
+
+  export default{
+    name:"Layout",
+    components:{
+      Aside,
+      Header
+    }
+  }
+</script>
+
+<!--<template>标签是在页面上对各组件进行布局-->
+<!--<script>标签是将定义的组件Header导入到总布局文件APP.vue中-->
