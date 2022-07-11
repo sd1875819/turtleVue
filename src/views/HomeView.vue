@@ -61,9 +61,6 @@
         <el-form-item label="地址">  <!--type="textarea"将地址框改成文本域-->
           <el-input type="textarea" v-model="form.address" style="width: 80%"/>
         </el-form-item>
-        <el-form-item label="Activity name">
-          <el-input v-model="form.username" style="width: 80%"/>
-        </el-form-item>
       </el-form>
       <template #footer>
       <span class="dialog-footer">
@@ -103,7 +100,11 @@ export default {
       this.form = {}  /*当打开新增用户信息弹窗时，清空表单域的数据，否则会显示上一个新增用户信息*/
     },
     save() {  /*对应新增用户里的确认按钮调用的方法，该方法将form对象传给后台*/
-      request.post("/user", this.form).then(res => {  //该处直接调用封装的axios里的request请求与后台进行数据交互，form是在弹窗里与各个属性进行了绑定，作为请求参数传给后台; .then()表示前一步的执行后将返回结果放到.then里
+      //该处直接调用封装的axios里的request请求与后台进行数据交互，
+      // form是在弹窗里与各个属性进行了绑定，作为请求参数传给后台;
+      // .then()表示前一步的执行后将返回结果放到.then里.
+      //请求里的/api 根据跨域配置的拦截器设置，会自动转换为target的值
+      request.post("/api/user", this.form).then(res => {
         console.log(res)
       })
     },
