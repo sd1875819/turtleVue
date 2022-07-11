@@ -8,8 +8,8 @@
     </div>
 <!--    搜索区域-->
     <div style="margin: 10px 0">
-      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%"/>
-      <el-button type="primary" style="margin-left: 5px">查询</el-button><!-- type="primary"设置组件颜色为蓝色，style="margin-left: 5px"设置距左组件的距离-->
+      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable/>
+      <el-button type="primary" style="margin-left: 5px" @click="load">查询</el-button><!-- type="primary"设置组件颜色为蓝色，style="margin-left: 5px"设置距左组件的距离-->
     </div>
     <el-table :data="tableData" border stripe style="width: 100%"> <!-- 定义表格的数据变量源及整体样式-->
       <el-table-column prop="id" label="ID" sortable width="80" /> <!-- 定义表格每一列的属性prop，列名label和样式width-->
@@ -31,7 +31,7 @@
     </el-table>
       <el-pagination
           v-model:currentPage="currentPage4"
-          v-model:page-size="pageSize4"
+          v-model:page-size="pageSize"
           :page-sizes="[10, 30, 50, 80]"
           :small="small"
           :disabled="disabled"
@@ -82,29 +82,49 @@ export default {
   components: {
 
   },
-/*  data()中定义tableData里的变量数据*/
+/*  data()中定义template里各个view里用到的所有的数据变量*/
   data() {
     return {
       dialogVisible: false, /*表示新增用户的弹窗是默认关闭的状态*/
       form: {},  /*定义新增用户弹窗表格里的数据变量form,该处的form是一个json对象，里面可包含多个属性*/
       search:'',
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
       tableData: [
 
       ]
     }
   },
+  created() { /*页面刷新加载时自动调用load()方法获取查询数据*/
+    this.load()
+  },
   /*  methods中定义tableData里调用到的函数方法*/
   methods: {
+    load() {
+      request.get("/api/user", { /*请求后端数据用get请求*/
+        params: { /*get请求不能像post请求一样直接传参数对象，需要用params包裹后传给接口进行请求*/
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          search: this.search
+        }
+      }).then(res => {
+        console.log(res)
+        this.tableData = res.data.records  //将从服务端查询的用户数据传给前端用户展示列表里的数据源变量tableData，用于在列表展示数据
+        this.total = res.data.total
+
+      })
+    },
     add() {
       this.dialogVisible = true;  /*点击触发add方法时，将新增用户的弹窗打开*/
       this.form = {}  /*当打开新增用户信息弹窗时，清空表单域的数据，否则会显示上一个新增用户信息*/
     },
-    save() {  /*对应新增用户里的确认按钮调用的方法，该方法将form对象传给后台*/
-      //该处直接调用封装的axios里的request请求与后台进行数据交互，
+    save() {  /*对应新增用户里的确认按钮调用的方法，该方法将form参数对象直接传给后台*/
+      //该处直接调用封装的axios里的request请求与后台进行数据交互，向后端传数据用post方法
       // form是在弹窗里与各个属性进行了绑定，作为请求参数传给后台;
       // .then()表示前一步的执行后将返回结果放到.then里.
       //请求里的/api 根据跨域配置的拦截器设置，会自动转换为target的值
-      request.post("/api/user", this.form).then(res => {
+      request.post("http://localhost:8013/user/userInfo/submit", this.form).then(res => {
         console.log(res)
       })
     },
