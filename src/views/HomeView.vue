@@ -124,7 +124,7 @@ export default {
       // form是在弹窗里与各个属性进行了绑定，作为请求参数传给后台;
       // .then()表示前一步的执行后将返回结果放到.then里.
       //请求里的/api 根据跨域配置的拦截器设置，会自动转换为target的值
-      request.post("http://localhost:8013/user/userInfo/submit", this.form).then(res => {
+      request.post("/user/userInfo/submit", this.form).then(res => {
         console.log(res)
       })
     },
