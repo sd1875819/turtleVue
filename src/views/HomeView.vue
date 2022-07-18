@@ -102,7 +102,7 @@ export default {
   /*  methods中定义tableData里调用到的函数方法*/
   methods: {
     load() {
-      request.get("/api/user", { /*请求后端数据用get请求*/
+      request.get("/user", { /*请求后端数据用get请求*/
         params: { /*get请求不能像post请求一样直接传参数对象，需要用params包裹后传给接口进行请求*/
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -124,7 +124,7 @@ export default {
       // form是在弹窗里与各个属性进行了绑定，作为请求参数传给后台;
       // .then()表示前一步的执行后将返回结果放到.then里.
       //请求里的/api 根据跨域配置的拦截器设置，会自动转换为target的值
-      request.post("/user/userInfo/submit", this.form).then(res => {
+      request.post("/user/submit", this.form).then(res => {
         console.log(res)
       })
     },
