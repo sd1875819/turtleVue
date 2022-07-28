@@ -1,12 +1,12 @@
 <template>
   <div>
-    <!--头部-->
+    <!--页面头部-->
     <Header/>
-    <!--主体-->
+    <!--页面主体-->
     <div style="display: flex">
-      <!--主体的左侧菜边栏-->
+      <!--页面主体的左侧菜边栏-->
       <Aside/>
-      <!--主体的右侧内容-->
+      <!--页面主体的右侧页面内容-->
       <router-view style="flex: 1"></router-view>
     </div>
   </div>
