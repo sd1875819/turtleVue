@@ -13,7 +13,7 @@
     </div>
     <el-table :data="tableData" border stripe style="width: 100%"> <!-- 定义表格的数据变量源及整体样式-->
       <el-table-column prop="id" label="ID" sortable width="80" /> <!-- 定义表格每一列的属性prop，列名label和样式width-->
-      <el-table-column prop="userName" label="用户名" width="100" />
+      <el-table-column prop="username" label="用户名" width="100" />
       <el-table-column prop="nickName" label="昵称" width="100"/>
       <el-table-column prop="age" label="年龄" width="100"/>
       <el-table-column prop="sex" label="性别" width="100"/>
