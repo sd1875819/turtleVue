@@ -1,5 +1,6 @@
 <template>
-  <div style="padding: 10px"> <!--padding: 10px  //设置组件/内容 与外边框之间的距离-->
+  <div style="padding: 10px"> <!--padding: 10px  //设置组件/内容 与外边框之间的距离，-->
+    <!--padding是控件的内容相对控件的边缘的边距．margin是控件边缘相对父空间的边距。-->
 <!--页面功能区域-->
     <div style="margin: 10px 0"> <!--style中设置div这个组件的样式，间距为上下10px，左右0-->
       <el-button type="primary" @click="add">新增</el-button>
@@ -8,6 +9,8 @@
     </div>
 <!--页面搜索区域-->
     <div style="margin: 10px 0">
+      <!--其中v-model里面的参数都要放到return里面定义才可以,否则页面会报错,放到进去之后也方便我们更好的去取值，
+      通过this.xxx就能获取到输入的值，或者给该参数赋值，return中的参数通过this.xxx调用-->
       <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable/>
       <el-button type="primary" style="margin-left: 5px" @click="load">查询</el-button><!-- type="primary"设置组件颜色为蓝色，style="margin-left: 5px"设置距左组件的距离-->
     </div>
@@ -46,7 +49,7 @@
 <!--新增用户信息的弹窗功能，放到最外层div中即可，作为一个独立的组件进行调用，通过参数dialogVisible为ture或者false控制弹窗的展示及隐藏-->
 <!--因为该组件使用到了参数dialogVisible，所以需要在data(){}中定义该参数-->
     <el-dialog v-model="dialogVisible" title="提示" width="30%">
-      <el-form :model="form" label-width="120px">  <!-- :model="form"表示定义新增用户信息弹窗里的表格的数据变量form，form与弹窗中的各个参数进行绑定，各参数值直接保存到form中-->
+      <el-form :model="form" label-width="120px">  <!-- :model="form"表示定义新增用户信息弹窗里的表格的数据对象form，form与弹窗中的各个参数进行绑定，各参数值直接保存到form中-->
         <el-form-item label="用户名">
           <el-input v-model="form.username" style="width: 80%"/> <!--当在弹窗的输入框输入内容，就会将内容值绑定到form里面-->
         </el-form-item>
@@ -89,7 +92,7 @@ export default {
   data() {
     return {
       dialogVisible: false, /*表示新增用户的弹窗，默认是关闭的状态*/
-      form: {},  /*定义新增用户弹窗表格里的数据变量form,该处的form是一个json对象，里面可包含多个属性*/
+      form: {},  /*定义新增用户弹窗表格里的数据参数对象form,是一个json对象，里面可包含多个属性*/
       search:'',
       currentPage: 1,
       pageSize: 10,
