@@ -23,11 +23,11 @@
       <el-table-column prop="sex" label="性别" width="100"/>
       <el-table-column prop="address" label="地址" width="400"/>
       <el-table-column fixed="right" label="Operations" width="160">
-        <template #default>
-          <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--在编辑方法里传入参数scope.row-->
-          <el-popconfirm title="你确定删除吗?">
+        <template #default="scope">  <!--在操作栏内，使用默认template获取了表格的行内数据scope-->
+          <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
+          <el-popconfirm title="你确定删除吗?" @confirm="handleDelete(scope.row.id)"> <!--删除是在二次确认按钮上执行的，根据Element plus上删除组件的使用方法，加一个confirm调用对应方法即可-->
             <template #reference>
-              <el-button type="text">删除</el-button> <!-- type="text"将该按钮以文本的形式展示，danger按钮的形式展示-->
+              <el-button type="text">删除</el-button> <!-- type="text"将该按钮以文本的形式展示，danger是以按钮的形式展示。因为删除是根据组件删除，所以只需传入id即可-->
             </template>
           </el-popconfirm>
         </template>
@@ -37,12 +37,12 @@
       <el-pagination
           v-model:currentPage="currentPage4"
           v-model:page-size="pageSize"
-          :page-sizes="[10, 30, 50, 80]"
+          :page-sizes="[5, 10, 20, 50]"
           :small="small"
           :disabled="disabled"
           :background="background"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="100"
+          :total="total"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
       />
@@ -70,8 +70,8 @@
       </el-form>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="save">确定</el-button>  <!--点击时对应调用save方法-->
+        <el-button @click="dialogVisible = false">取消</el-button> <!--点击弹窗上的取消按钮时将弹窗是否显示的字段dialogVisible置为false即可-->
+        <el-button type="primary" @click="save">确定</el-button>  <!--点击弹窗上的确认按钮时对应调用save方法-->
       </span>
       </template>
     </el-dialog>
@@ -94,7 +94,7 @@ export default {
       dialogVisible: false, /*表示新增用户的弹窗，默认是关闭的状态*/
       form: {},  /*定义新增用户弹窗表格里的数据参数对象form,是一个json对象，里面可包含多个属性*/
       search:'',
-      currentPage: 1,
+      currentPage: 1, /*定义分页组件的参数当前页currentPage、每页显示条数pageSize及请求到的数据总条数total以及给定其默认值*/
       pageSize: 10,
       total: 0,
       tableData: [
@@ -151,7 +151,14 @@ export default {
               type: "success",
               message: "新增成功"
             })
+          } else {
+            this.$message({
+              type: "error",
+              message: res.msg
+            })
           }
+          this.load()  //新增成功后自动刷新表格数据
+          this.dialogVisible = false
         })
       }
     },
@@ -159,7 +166,33 @@ export default {
       /*因为表单里的数据是跟form对象绑定的，所以直接给form对象赋值即可。在输入完点击取消，为了避免数据发生变化的拷贝问题，
       可以通过JSON.parse(JSON.stringify())对对象进行深拷贝，这样该处的from就是一个独立对象，跟之前表格里是隔离开了，避免浅拷贝问题*/
       this.form = JSON.parse(JSON.stringify(row))
-      this.dialogVisible = true /*打开弹窗*/
+      this.dialogVisible = true /*打开弹窗，编辑打开的弹窗跟新增使用同一个弹窗，所以弹窗上的取消跟确认方法也使用同一个，这样就需要在确认方法里判断是新增还是编辑信息*/
+    },
+    handleDelete(id) { /*在删除方法中写个接口，把id传给后台执行删除操作*/
+      console.log(id)
+      request.delete("/user/" + id).then(res =>{  /*使用该方式，/后面的id会直接被映射到后台被delete的占位符参数获取到*/
+        if (res.code == '0') {
+          this.$message({  /*执行删除成功后给一个弹窗提示*/
+            type: "success",
+            message: "删除成功"
+          })
+        } else {
+          this.$message({
+            type: "error",
+            message: res.msg
+          })
+        }
+        this.load()  //删除一行数据后重新刷新并加载页面表格数据
+      })
+    },
+    /*handleSizeChange和handleCurrentChange是分页的组件上的两个方法，一个控制每页展示几条，一个控制跳转到第几页，具体使用查看Element plus插件案例*/
+    handleSizeChange(pageSize) {  /*改变当前每页的个数触发，pageSize值是从前端分页组件选择每页展示几条后传过来的*/
+      this.pageSize = pageSize  /*在data中定义了pageSize及currentPage参数，并设置了默认值，在请求数据后，要重新给该参数赋值*/
+      this.load()   /*选择分页后刷新页面，使改动生效*/
+    },
+    handleCurrentChange(pageNum) {  /*改变当前页码触发*/
+      this.currentPage = pageNum
+      this.load()
     }
   }
 }
