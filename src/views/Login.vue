@@ -1,8 +1,8 @@
 <template>
   <!--设置整个登陆页面的宽度是100%， 高度是100pv,页面背景色,overflow: hidden是避免页面顶部留白-->
-  <div style="width: 100%; height: 100vh; background-color: dodgerblue; overflow: hidden">
+  <div style="width: 100%; height: 100vh; background-color: blue; overflow: hidden">
     <div style="width: 400px; margin: 150px auto">  <!--设置登陆框的位置：宽度width是400px，居中设置上下是150px，左右是auto自适应-->
-        <div style="color: #cccccc; font-size: 30px; text-align: center">欢迎登陆</div>   <!--text-align: center设置字体居中,padding: 30px 0设置与下面输入框的间距-->
+        <div style="color: #cccccc; font-size: 30px; text-align: center; padding: 30px 0">欢迎登陆</div>   <!--text-align: center设置字体居中,padding: 30px 0设置与下面输入框的间距-->
         <el-form ref="form" :model="form" size="normal"> <!--引入el-form输入框组件-->
           <el-form-item>
             <el-input  v-model="form.name" prefix-icon="el-icon-user-solid"></el-input> <!--prefix-icon设置输入框的icon-->
@@ -11,7 +11,7 @@
             <el-input v-model="form.password" prefix-icon="el-icon-user-lock" show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button style="width: 100%" type="primary" @click="login">登陆</el-button> <!--style="width: 100%" 设置登陆按钮长度与输入框一样，type="primary"设置按钮颜色-->
+            <el-button style="width: 100%" type="primary" @click="login">登陆</el-button> <!--style="width: 100%" 设置登陆按钮长度与输入框一样，type="primary"设置按钮样式，按钮有几种指定样式直接选择即可-->
           </el-form-item>
         </el-form>
     </div>
