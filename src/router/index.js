@@ -23,10 +23,15 @@ const routes = [
     }
     ]
   },
-  {
+  {  /*登陆界面的路由*/
     path: '/login',
     name: 'Login',
     component: () => import("@/views/Login")
+  },
+  {  /*注册界面的路由*/
+    path: '/register',
+    name: 'Register',
+    component: () => import("@/views/Register")
   }
 ]
 

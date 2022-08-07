@@ -6,16 +6,13 @@
     <div style="flex:  1"></div>
     <div style="width: 100px">
         <el-dropdown>
-    <span class="el-dropdown-link">
-      <i class="el-icon-arrow-down el-icon--right"></i>
-      <el-icon class="el-icon--right">
-        <arrow-down />
-      </el-icon>
-    </span>
+          <span class="el-dropdown-link">张三
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item>退出系统</el-dropdown-item>
+              <el-dropdown-item @click="$router.push('/login')">退出系统</el-dropdown-item> <!--点击退出系统时，直接调用$router.push()方法让页面跳转到登陆界面，如果时正式系统还需要清理浏览器的用户信息缓存-->
             </el-dropdown-menu>
           </template>
         </el-dropdown>
