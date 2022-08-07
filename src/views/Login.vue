@@ -2,17 +2,10 @@
   <!--设置整个登陆页面的宽度是100%， 高度是100pv,页面背景色,overflow: hidden是避免页面顶部留白-->
   <div style="width: 100%; height: 100vh; background-color: blue; overflow: hidden">
     <div style="width: 400px; margin: 150px auto">  <!--设置登陆框的位置：宽度width是400px，居中设置上下是150px，左右是auto自适应-->
-<<<<<<< HEAD
         <div style="color: #cccccc; font-size: 30px; text-align: center">欢迎登陆</div>   <!--text-align: center设置字体居中,padding: 30px 0设置与下面输入框的间距-->
         <el-form ref="form" :model="form" size="normal" :rules="rules"> <!--引入el-form输入框组件，rules="rules"是表示给该表单增加检验规则,注意前面一定要带着冒号：，否则不生效-->
           <el-form-item prop="username">
             <el-input  v-model="form.username" prefix-icon="el-icon-user-solid"></el-input> <!--prefix-icon设置输入框的icon-->
-=======
-        <div style="color: #cccccc; font-size: 30px; text-align: center; padding: 30px 0">欢迎登陆</div>   <!--text-align: center设置字体居中,padding: 30px 0设置与下面输入框的间距-->
-        <el-form ref="form" :model="form" size="normal"> <!--引入el-form输入框组件-->
-          <el-form-item>
-            <el-input  v-model="form.name" prefix-icon="el-icon-user-solid"></el-input> <!--prefix-icon设置输入框的icon-->
->>>>>>> 52a7f5423de277197b4880a095247dcf841ad61e
           </el-form-item>
           <el-form-item prop="password">
             <el-input v-model="form.password" prefix-icon="el-icon-user-lock" show-password></el-input>
