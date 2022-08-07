@@ -84,7 +84,7 @@
 import request from "@/assets/utils/request";
 
 export default {
-  name: 'HomeView',
+  name: 'User',
   components: {
 
   },
