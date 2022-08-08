@@ -6,7 +6,7 @@
     <div style="flex:  1"></div>
     <div style="width: 100px">
         <el-dropdown>
-          <span class="el-dropdown-link">张三
+          <span class="el-dropdown-link" style="margin: 20px">张三
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>

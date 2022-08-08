@@ -20,7 +20,12 @@ const routes = [
         path: 'user',
         name: 'User',
         component: () => import("@/views/User"),  /*，该处是导入页面的另外一种方式，将User界面进行二次路由导入*/
-      }
+      },
+      {
+        path: 'book',
+        name: 'Book',
+        component: () => import("@/views/Book"),  /*，该处是导入页面的另外一种方式，将User界面进行二次路由导入*/
+      },
     ]
   },
   {  /*登陆界面的路由*/
