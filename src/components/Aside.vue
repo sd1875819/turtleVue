@@ -7,7 +7,7 @@
     -->
     <el-menu
         style="width: 200px; min-height: calc(100vh - 50px)"
-        default-active="user"
+        default-active="path"
         router
         class="el-menu-vertical-demo" >
       <!--default-active表示设置默认打开哪个index值的导航栏对应的页面-->
@@ -17,9 +17,9 @@
             <i class="el-icon-location"></i>  <!--<i>里放置导航栏的图标-->
             <span>系统管理</span> <!--<span>是一级导航栏里导航栏标题的展示-->
           </template>
-          <el-menu-item index="user">用户管理</el-menu-item>   <!--index是用来区分el-menu-item 的索引，类似每个导航栏的id。:route是用来绑定跳转页面的,上面统一添加了router属性，该处就不用route了-->
+          <el-menu-item index="/user">用户管理</el-menu-item>   <!--index是用来区分el-menu-item 的索引，类似每个导航栏的id。:route是用来绑定跳转页面的,上面统一添加了router属性，该处就不用route了-->
         </el-sub-menu>
-      <el-menu-item index="book">书籍管理</el-menu-item> <!--没有子菜单的一级菜单，直接用el-menu-item,该处的index就是路由，与index里的path对应-->
+      <el-menu-item index="/book">书籍管理</el-menu-item> <!--没有子菜单的一级菜单，直接用el-menu-item,该处的index就是路由，与index里的path对应-->
     </el-menu>
   </div>
 
@@ -27,7 +27,15 @@
 
 <script>
 export default {
-  name: "Aside"
+  name: "Aside",
+  data() {
+    return {
+      path: this.$route.path  /*设置默认高亮的菜单*/
+    }
+  },
+  created() {
+
+  }
 }
 </script>
 
