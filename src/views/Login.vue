@@ -45,6 +45,7 @@ export default {
                 type: "success",
                 message: "登陆成功"
               })
+              sessionStorage.setItem("user", JSON.stringify(res.data))  /*用户登陆成功后缓存用户信息*/
               this.$router.push("/") /*登陆成功后自动进行页面跳转到指定页面，this.$router.push()是vue里的页面自动跳转实现方法*/
             } else {
               this.$message({  /*执行新增成功后给一个弹窗提示*/

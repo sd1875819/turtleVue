@@ -2,12 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '../layout/Layout.vue'
 
 const routes = [
+/*  {
+    path: '/',  /!*'/'符号表示根目录，path里带该符号的都是直接拼接到http://localhost:8081后面使用的*!/
+    redirect: "/",  /!*redirect是路由重定向，表示当访问带'/'根目录前台地址时，会自动重定向到/home地址上，这样就实现了项目启动后自动打开路由配置为/home里component指定的页面*!/
+  },*/
   {
-    path: '/',  /*'/'符号表示根目录，path里带该符号的都是直接拼接到http://localhost:8081后面使用的*/
-    redirect: "/user",  /*redirect是路由重定向，表示当访问带'/'根目录前台地址时，会自动重定向到/home地址上，这样就实现了项目启动后自动打开路由配置为/home里component指定的页面*/
-  },
-  {
-    path: '/user',
+    path: '/',
     name: 'User',
     component: Layout,
     /*children里放嵌套路由，即将chileren里component指定的User页面嵌套到上一层路由/home里的component指定的Layout框架页面里，
