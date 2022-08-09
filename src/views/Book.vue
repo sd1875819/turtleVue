@@ -61,6 +61,11 @@
                 <el-form-item label="出版时间">
                     <el-date-picker v-model="form.createTime" value-format="YYYY-MM-DD" type="data" style="width: 80%" clearable></el-date-picker>
                 </el-form-item>
+                <el-form-item label="封面"><!--在弹窗里添加el-upload上传组件-->
+                    <el-upload action="https://localhost:8013/files/upload" :on-success="filesUpladSuccess"> <!--filesUpladSuccess是文件上传成功后回调的方法，用于获取文件上传后的地址，该地址需要传给后台进行保存-->
+                        <el-button type="primary">点击上传</el-button>
+                    </el-upload>
+                </el-form-item>
             </el-form>
             <template #footer>
       <span class="dialog-footer">
@@ -101,6 +106,10 @@
         },
         /*  methods中定义tableData里调用到的函数方法*/
         methods: {
+            filesUpladSuccess(res) {
+                console.log(res)
+                this.form.cover = res.data  /*给cover参数赋值，将cover值通过form对象传给后台进行存储*/
+            },
             load() {
                 /*发送网络请求可直接调用封装的axios里的request里的get或者post方法*/
                 /*request.xxx(发送接口请求).then(对接口返回的数据进行处理)*/
