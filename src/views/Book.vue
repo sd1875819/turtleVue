@@ -61,7 +61,7 @@
                 <el-form-item label="出版时间">
                     <el-date-picker v-model="form.createTime" value-format="YYYY-MM-DD" type="data" style="width: 80%" clearable></el-date-picker>
                 </el-form-item>
-                <el-form-item label="封面"><!--在弹窗里添加el-upload上传组件,只需要给action里是指定调用的后台接口即可上传，后台需要添加解决跨域的类CorsConfig-->
+                <el-form-item label="封面"><!--在弹窗里添加el-upload文件上传组件,只需要给action里是指定调用的后台接口即可上传，该处有默认上传文件大小限制，超出会上传失败，也可以指定大小。后台需要添加解决跨域的类CorsConfig-->
                     <el-upload action="http://localhost:8013/files/upload"  on-success="filesUpladSuccess"> <!--filesUpladSuccess是文件上传成功后回调的方法，用于获取文件上传后的后台返回的文件地址-->
                         <el-button type="primary">点击上传</el-button>
                     </el-upload>
