@@ -180,7 +180,7 @@
                 可以通过JSON.parse(JSON.stringify())对对象进行深拷贝，这样该处的from就是一个独立对象，跟之前表格里是隔离开了，避免浅拷贝问题*/
                 this.form = JSON.parse(JSON.stringify(row))
                 this.dialogVisible = true /*打开弹窗，编辑打开的弹窗跟新增使用同一个弹窗，所以弹窗上的取消跟确认方法也使用同一个，这样就需要在确认方法里判断是新增还是编辑信息*/
-                this.$nextTick( () => {  /*在执行清除时会报错Cannot read property "clearFiles" of undefined，因为弹窗是异步加载，点编辑时整个弹窗元素其实是不存在的，所以点击编辑按钮到弹窗弹出之前这个this.$refs['upload']组件是不存在的，获取不到这个组件所以报错，只有当弹窗弹出后这个组件才有，所以该处需要给该组件包裹一个$nextTick，解决未来DOM不存在的问题，既解决调用时刻元素不存在发生的错误，正常是弹窗渲染时就检查组件是否存在，通过该方式就可以让弹窗弹出后再检查该组件是否存在*/
+                this.$nextTick( () => {  /*在执行清除时会报错Cannot read property "clearFiles" of undefined，因为弹窗是异步加载，所以点击编辑按钮到弹窗弹出之前这个清理上传地址的this.$refs['upload']组件还是不存在的，获取不到这个组件所以报错，只有当弹窗弹出后这个清理上传地址的组件才有，所以该处需要给该组件包裹一个$nextTick，解决未来DOM不存在的问题，既解决调用时刻元素不存在发生的错误，正常是弹窗渲染时就检查组件是否存在，通过该方式就可以让弹窗弹出后再检查该组件是否存在*/
                      this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
                 })
             },
