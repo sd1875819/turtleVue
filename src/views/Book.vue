@@ -21,7 +21,16 @@
             <el-table-column prop="price" label="单价" width="100"/>
             <el-table-column prop="author" label="作者" width="150"/>
             <el-table-column prop="createTime" label="出版时间" width="300"/>
-            <el-table-column fixed="right" label="Operations" width="200">
+            <el-table-column label="封面">   <!--上传的文件图片的展示组件，注意写法-->
+                <template #default="scope">
+                    <el-image
+                            style="width: 100px; height: 100px"
+                            :src="scope.row.cover"
+                            :preview-src-list="[scope.row.cover]"
+                    />
+                </template>
+            </el-table-column>
+            <el-table-column fixed="right" label="操作" width="200">
                 <template #default="scope">  <!--在操作栏内，使用默认template获取了表格的行内数据scope-->
                     <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
                     <el-popconfirm title="你确定删除吗?" @confirm="handleDelete(scope.row.id)"> <!--删除是在二次确认按钮上执行的，根据Element plus上删除组件的使用方法，加一个confirm调用对应方法即可-->
@@ -62,7 +71,7 @@
                     <el-date-picker v-model="form.createTime" value-format="YYYY-MM-DD" type="data" style="width: 80%" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="封面"><!--在弹窗里添加el-upload文件上传组件,只需要给action里是指定调用的后台接口即可上传，该处有默认上传文件大小限制，超出会上传失败，也可以指定大小。后台需要添加解决跨域的类CorsConfig-->
-                    <el-upload action="http://localhost:8013/files/upload"  on-success="filesUpladSuccess"> <!--filesUpladSuccess是文件上传成功后回调的方法，用于获取文件上传后的后台返回的文件地址-->
+                    <el-upload ref="upload" action="http://localhost:8013/files/upload"  :on-success="filesUpladSuccess"> <!--filesUpladSuccess是文件上传成功后回调的方法，用于获取文件上传后的后台返回的文件地址,注意:on-success前面要有":"号，ref="upload"是打开弹窗时执行的方法-->
                         <el-button type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>
@@ -129,6 +138,7 @@
             add() {
                 this.dialogVisible = true;  /*点击触发add方法时，将新增用户的弹窗打开*/
                 this.form = {}  /*当打开新增用户信息弹窗时，清空表单域的数据，否则会显示上一个新增用户信息*/
+                this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
             },
             /*点击新增用户里的确认按钮时调用save()方法，该方法将form参数对象直接传给后台*/
             save() {
@@ -170,6 +180,9 @@
                 可以通过JSON.parse(JSON.stringify())对对象进行深拷贝，这样该处的from就是一个独立对象，跟之前表格里是隔离开了，避免浅拷贝问题*/
                 this.form = JSON.parse(JSON.stringify(row))
                 this.dialogVisible = true /*打开弹窗，编辑打开的弹窗跟新增使用同一个弹窗，所以弹窗上的取消跟确认方法也使用同一个，这样就需要在确认方法里判断是新增还是编辑信息*/
+                this.$nextTick( () => {  /*在执行清除时会报错Cannot read property "clearFiles" of undefined，因为弹窗是异步加载，点编辑时整个弹窗元素其实是不存在的，所以点击编辑按钮到弹窗弹出之前这个this.$refs['upload']组件是不存在的，获取不到这个组件所以报错，只有当弹窗弹出后这个组件才有，所以该处需要给该组件包裹一个$nextTick，解决未来DOM不存在的问题，既解决调用时刻元素不存在发生的错误，正常是弹窗渲染时就检查组件是否存在，通过该方式就可以让弹窗弹出后再检查该组件是否存在*/
+                     this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
+                })
             },
             handleDelete(id) { /*在删除方法中写个接口，把id传给后台执行删除操作*/
                 console.log(id)
