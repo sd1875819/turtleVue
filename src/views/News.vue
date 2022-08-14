@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 10px"> <!--padding: 10px  //设置组件/内容 与外边框之间的距离，-->
         <!--padding是控件的内容相对控件的边缘的边距．margin是控件边缘相对父空间的边距。-->
-        <!--页面功能区域-->
+<!--        页面功能区域-->
         <div style="margin: 10px 0"> <!--style中设置div这个组件的样式，间距为上下10px，左右0-->
             <el-button type="primary" @click="add">新增</el-button>
             <el-button type="primary">导入</el-button>
@@ -17,23 +17,15 @@
         <!--数据表格展示区域-->
         <el-table :data="tableData" border stripe style="width: 100%"> <!-- 定义表格的数据变量源:data="tableData"，及整体样式-->
             <el-table-column prop="id" label="ID" sortable width="80" /> <!-- 定义表格每一列的属性prop，即属性的key，列名label和宽度width-->
-            <el-table-column prop="name" label="名称" width="200" />
-            <el-table-column prop="price" label="单价" width="100"/>
+            <el-table-column prop="title" label="标题" width="200" />
             <el-table-column prop="author" label="作者" width="150"/>
-            <el-table-column prop="createTime" label="出版时间" width="300"/>
-            <el-table-column label="封面">   <!--上传的文件图片的展示组件，注意写法-->
-                <template #default="scope">
-                    <el-image
-                            style="width: 100px; height: 100px"
-                            :src="scope.row.cover"
-                            :preview-src-list="[scope.row.cover]"
-                    />
-                </template>
-            </el-table-column>
+            <el-table-column prop="time" label="发布时间" width="300"/>
+
             <el-table-column fixed="right" label="操作" width="200">
                 <template #default="scope">  <!--在操作栏内，使用默认template获取了表格的行内数据scope-->
-                    <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
-                    <el-popconfirm title="你确定删除吗?" @confirm="handleDelete(scope.row.id)"> <!--删除是在二次确认按钮上执行的，根据Element plus上删除组件的使用方法，加一个confirm调用对应方法即可-->
+                  <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
+                  <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
+                  <el-popconfirm title="你确定删除吗?" @confirm="handleDelete(scope.row.id)"> <!--删除是在二次确认按钮上执行的，根据Element plus上删除组件的使用方法，加一个confirm调用对应方法即可-->
                         <template #reference>
                             <el-button type="text">删除</el-button> <!-- type="text"将该按钮以文本的形式展示，danger是以按钮的形式展示。因为删除是根据组件删除，所以只需传入id即可-->
                         </template>
@@ -56,25 +48,16 @@
         />
         <!--新增用户信息的弹窗功能，放到最外层div中即可，作为一个独立的组件进行调用，通过参数dialogVisible为ture或者false控制弹窗的展示及隐藏-->
         <!--因为该组件使用到了参数dialogVisible，所以需要在data(){}中定义该参数-->
-        <el-dialog v-model="dialogVisible" title="提示" width="30%">
+        <el-dialog v-model="dialogVisible" title="提示" width="50%">
             <el-form :model="form" label-width="120px">  <!-- :model="form"表示定义新增用户信息弹窗里的表格的数据对象form，form与弹窗中的各个参数进行绑定，各参数值直接保存到form中-->
-                <el-form-item label="名称">
-                    <el-input v-model="form.name" style="width: 80%"/> <!--当在弹窗的输入框输入内容，就会将内容值绑定到form里面-->
+                <el-form-item label="标题">
+                    <el-input v-model="form.title" style="width: 50%"/> <!--当在弹窗的输入框输入内容，就会将内容值绑定到form里面-->
                 </el-form-item>
-                <el-form-item label="单价">
-                    <el-input v-model="form.price" style="width: 80%"/>
-                </el-form-item>
-                <el-form-item label="作者">
-                    <el-input v-model="form.author" style="width: 80%"/>
-                </el-form-item>
-                <el-form-item label="出版时间">
-                    <el-date-picker v-model="form.createTime" value-format="YYYY-MM-DD" type="data" style="width: 80%" clearable></el-date-picker>
-                </el-form-item>
-                <el-form-item label="封面"><!--在弹窗里添加el-upload文件上传组件,只需要给action里是指定调用的后台接口即可上传，该处有默认上传文件大小限制，超出会上传失败，也可以指定大小。后台需要添加解决跨域的类CorsConfig-->
-                    <el-upload ref="upload" action="http://localhost:8013/files/upload"  :on-success="filesUpladSuccess"> <!--filesUpladSuccess是文件上传成功后回调的方法，用于获取文件上传后的后台返回的文件地址,注意:on-success前面要有":"号，ref="upload"是打开弹窗时执行的方法-->
-                        <el-button type="primary">点击上传</el-button>
-                    </el-upload>
-                </el-form-item>
+                <div id="div1"></div>   <!--引入wangedit富文本编辑框需要用div包裹-->
+<!--              作者跟时间从后台获取自动填充-->
+<!--                <el-form-item label="内容">
+                    <el-input v-model="form.content" style="width: 80%"/>
+                </el-form-item>-->
             </el-form>
             <template #footer>
       <span class="dialog-footer">
@@ -90,9 +73,12 @@
 <script>
 
     import request from "@/assets/utils/request";
+    import E from "wangeditor";
+
+    let editor; /*设置全局编辑器对象*/
 
     export default {
-        name: 'Book',
+        name: 'News',
         components: {
 
         },
@@ -105,15 +91,15 @@
                 currentPage: 1, /*定义分页组件的参数当前页currentPage、每页显示条数pageSize及请求到的数据总条数total以及给定其默认值*/
                 pageSize: 10,
                 total: 0,
-                tableData: [
-
-                ]
+                tableData: [],
+                user: {}   /*定义user对象*/
             }
         },
         created() { /*页面刷新加载时自动调用load()方法获取查询数据*/
             this.load()
         },
-        /*  methods中定义tableData里调用到的函数方法*/
+
+      /*  methods中定义tableData里调用到的函数方法*/
         methods: {
             filesUpladSuccess(res) {
                 console.log(res)
@@ -122,7 +108,7 @@
             load() {
                 /*发送网络请求可直接调用封装的axios里的request里的get或者post方法*/
                 /*request.xxx(发送接口请求).then(对接口返回的数据进行处理)*/
-                request.get("/book", { /*请求后端数据用get请求*/
+                request.get("/news", { /*请求后端数据用get请求*/
                     params: { /*get请求不能像post请求一样直接传参数对象，需要用params对象将参数值包裹后传给接口进行请求*/
                         pageNum: this.currentPage,
                         pageSize: this.pageSize,
@@ -138,16 +124,20 @@
             add() {
                 this.dialogVisible = true;  /*点击触发add方法时，将新增用户的弹窗打开*/
                 this.form = {}  /*当打开新增用户信息弹窗时，清空表单域的数据，否则会显示上一个新增用户信息*/
-              if (this.$refs['upload']) {  /*做一个判断，如果有this.$refs['upload']元素，再进行清除操作*/
-                this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
-              }
+                this.$nextTick( () => {  /*在创建wangeditor编辑器时会报错Cannot read property "#div1" of undefined，因为弹窗里的内容是异步加载，创建弹窗过程中编辑器还未生成，此时就检查编辑器当然会报错，所以需要使用$nextTick，对弹窗里的编辑器进行延时校验。*/
+                  /*关联弹窗里的div，打开添加的弹窗时，加载并创建一个wangeditor对象*/
+                  /*const editor = new E('#div1')*/   /*因为要获取编辑器里的内容，所以editor对象需要设置成全局变量，该行设置的是局部变量*/
+                  editor = new E('#div1')   /*给editor对象赋值*/
+                  editor.create()
+                })
             },
             /*点击新增用户里的确认按钮时调用save()方法，该方法将form参数对象直接传给后台*/
             save() {
-                //向后端传数据进行保存用post方法
+                this.form.content = editor.txt.html()   /*点击保存时，获取编辑器里的值，然后赋给内容参数content传给后端保存*/
+                 //向后端传数据进行保存用post方法
                 //form对象是在新增用户弹窗里与各个属性进行了绑定，将新增用户信息弹窗中选择的用户信息参数值包装成form对象直接传给后台;
                 if (this.form.id) {  /*新增跟编辑操作都会点击确认，调用save方法。如果form对象里有id，表示此时在执行编辑更新操作。*/
-                    request.put("/book/update", this.form).then(res => {
+                    request.put("/news/update", this.form).then(res => {
                         console.log(res)
                         if (res.code == '0') {
                             this.$message({  /*执行编辑更新成功后给一个弹窗提示*/
@@ -159,7 +149,10 @@
                         this.dialogVisible = false
                     })
                 } else { /*form对象里没有id表示是新增操作*/
-                    request.post("/book/submit", this.form).then(res => {
+                  let userStr = sessionStorage.getItem("user") || "{}"  /*在提交保存时获取用户信息，获取不到就赋值为空*/
+                  let user = JSON.parse(userStr);  /*将获取到的userStr信息转换为JSON对象*/
+                  this.form.author = user.nickName  /*新增时获取用户名，更新时不需要了，所以获取用户名在该处就行了*/
+                  request.post("/news/submit", this.form).then(res => {
                         console.log(res)
                         if (res.code == '0') {
                             this.$message({  /*执行新增成功后给一个弹窗提示*/
@@ -183,12 +176,14 @@
                 this.form = JSON.parse(JSON.stringify(row))
                 this.dialogVisible = true /*打开弹窗，编辑打开的弹窗跟新增使用同一个弹窗，所以弹窗上的取消跟确认方法也使用同一个，这样就需要在确认方法里判断是新增还是编辑信息*/
                 this.$nextTick( () => {  /*在执行清除时会报错Cannot read property "clearFiles" of undefined，因为弹窗是异步加载，所以点击编辑按钮到弹窗弹出之前这个清理上传地址的this.$refs['upload']组件还是不存在的，获取不到这个组件所以报错，只有当弹窗弹出后这个清理上传地址的组件才有，所以该处需要给该组件包裹一个$nextTick，解决未来DOM不存在的问题，既解决调用时刻元素不存在发生的错误，正常是弹窗渲染时就检查组件是否存在，通过该方式就可以让弹窗弹出后再检查该组件是否存在*/
-                     this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
+                  if (this.$refs['upload']) {  /*做一个判断，如果有this.$refs['upload']元素，再进行清除操作*/
+                    this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
+                  }
                 })
             },
             handleDelete(id) { /*在删除方法中写个接口，把id传给后台执行删除操作*/
                 console.log(id)
-                request.delete("/book/" + id).then(res =>{  /*使用该方式，/后面的id会直接被映射到后台被delete的占位符参数获取到*/
+                request.delete("/news/" + id).then(res =>{  /*使用该方式，/后面的id会直接被映射到后台被delete的占位符参数获取到*/
                     if (res.code == '0') {
                         this.$message({  /*执行删除成功后给一个弹窗提示*/
                             type: "success",
