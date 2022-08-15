@@ -74,6 +74,7 @@
 
     import request from "@/assets/utils/request";
     import E from "wangeditor";
+    import router from "@/router";
 
     let editor; /*设置全局编辑器对象*/
 
@@ -180,6 +181,13 @@
                     this.$refs['upload'].clearFiles()   /*清除弹窗里之前已经上传的历史文件*/
                   }
                 })
+              this.$nextTick( () => {  /*在创建wangeditor编辑器时会报错Cannot read property "#div1" of undefined，因为弹窗里的内容是异步加载，创建弹窗过程中编辑器还未生成，此时就检查编辑器当然会报错，所以需要使用$nextTick，对弹窗里的编辑器进行延时校验。*/
+                /*关联弹窗里的div，打开添加的弹窗时，加载并创建一个wangeditor对象*/
+                /*const editor = new E('#div1')*/   /*因为要获取编辑器里的内容，所以editor对象需要设置成全局变量，该行设置的是局部变量*/
+                editor = new E('#div1')   /*给editor对象赋值*/
+                editor.create()
+                editor.txt.html(row.content)   /*将行内容传入编辑弹窗*/
+              })
             },
             handleDelete(id) { /*在删除方法中写个接口，把id传给后台执行删除操作*/
                 console.log(id)
