@@ -23,7 +23,7 @@
 
             <el-table-column fixed="right" label="操作" width="200">
                 <template #default="scope">  <!--在操作栏内，使用默认template获取了表格的行内数据scope-->
-                  <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
+                  <el-button link type="primary" @click="details(scope.row)">详情</el-button>  <!--添加一个详情按钮，点击时弹窗显示富文本内容-->
                   <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
                   <el-popconfirm title="你确定删除吗?" @confirm="handleDelete(scope.row.id)"> <!--删除是在二次确认按钮上执行的，根据Element plus上删除组件的使用方法，加一个confirm调用对应方法即可-->
                         <template #reference>
@@ -67,6 +67,13 @@
             </template>
         </el-dialog>
 
+        <el-dialog v-model="vis" title="详情" width="50%">  <!--定义富文本内容显示的弹窗-->
+            <el-card>
+                <div v-html="detail.content" style="min-height: 100px"></div> <!--弹窗里显示富文本内容-->
+
+            </el-card>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -92,7 +99,9 @@
                 pageSize: 10,
                 total: 0,
                 tableData: [],
-                user: {}   /*定义user对象*/
+                user: {},   /*定义user对象*/
+                detail: {},
+                vis: false   /*定义富文本内容展示的弹窗的开启和关闭*/
             }
         },
         created() { /*页面刷新加载时自动调用load()方法获取查询数据*/
@@ -101,6 +110,10 @@
 
       /*  methods中定义tableData里调用到的函数方法*/
         methods: {
+            details(row) {
+                this.detail = row
+                this.vis = true
+            },
             filesUpladSuccess(res) {
                 console.log(res)
                 this.form.cover = res.data  /*给cover参数赋值，将cover值通过form对象传给后台进行存储*/
