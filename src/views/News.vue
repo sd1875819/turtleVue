@@ -142,6 +142,9 @@
                   /*关联弹窗里的div，打开添加的弹窗时，加载并创建一个wangeditor对象*/
                   /*const editor = new E('#div1')*/   /*因为要获取编辑器里的内容，所以editor对象需要设置成全局变量，该行设置的是局部变量*/
                   editor = new E('#div1')   /*给editor对象赋值*/
+                  /*  配置富文本弹窗里本地图片上传功能对应的上传保存的Server接口地址*/
+                  editor.config.uploadImgServer = 'http://localhost:8013/files/editorUpload';
+                  editor.config.uploadFileName = "file";    /*该处需要按编辑器的要求将新增上传的文件名改为file，与后端editorUpload(MultipartFile file)方法里的入参名file一致，否则后端会报file参数为null的错误：java.lang.NullPointerException: null*/
                   editor.create()
                 })
             },
@@ -198,6 +201,10 @@
                 /*关联弹窗里的div，打开添加的弹窗时，加载并创建一个wangeditor对象*/
                 /*const editor = new E('#div1')*/   /*因为要获取编辑器里的内容，所以editor对象需要设置成全局变量，该行设置的是局部变量*/
                 editor = new E('#div1')   /*给editor对象赋值*/
+
+                /*  配置富文本弹窗里本地图片上传功能对应的上传保存的Server接口地址*/
+                editor.config.uploadImgServer = 'http://localhost:8013/files/editorUpload';
+                editor.config.uploadFileName = "file";    /*该处需要按编辑器的要求将新增上传的文件名改为file，与后端editorUpload(MultipartFile file)方法里的入参名file一致，否则后端会报file参数为null的错误：java.lang.NullPointerException: null*/
                 editor.create()
                 editor.txt.html(row.content)   /*将行内容传入编辑弹窗*/
               })
