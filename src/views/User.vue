@@ -22,6 +22,12 @@
       <el-table-column prop="age" label="年龄" width="100"/>
       <el-table-column prop="sex" label="性别" width="100"/>
       <el-table-column prop="address" label="地址" width="400"/>
+      <el-table-column label="角色">
+        <template #default="scope">
+          <span v-if="scope.row.role === 1">管理员</span>
+          <span v-if="scope.row.role === 2">普通用户</span>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">  <!--在操作栏内，使用默认template获取了表格的行内数据scope-->
           <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
