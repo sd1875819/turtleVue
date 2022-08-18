@@ -12,7 +12,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item @click="$router.push('/login')">退出系统</el-dropdown-item> <!--点击退出系统时，直接调用$router.push()方法让页面跳转到登陆界面，如果时正式系统还需要清理浏览器的用户信息缓存-->
+              <el-dropdown-item @click="exit">退出系统</el-dropdown-item> <!--点击退出系统时，直接调用$router.push()方法让页面跳转到登陆界面，如果时正式系统还需要清理浏览器的用户信息缓存-->
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -24,6 +24,12 @@
 <script>
 export default {
     name: "Header",
+    methods: {
+        exit() {
+            this.$router.push('/login')  /*点击退出登陆时直接跳转到登陆页面*/
+            sessionStorage.removeItem("user")  /*退出登陆后清理浏览器里保存的登陆时的用户信息，避免退出登陆后绕过登陆页直接读取缓存用户信息进入后台页面*/
+        }
+    }
 }
 </script>
 
