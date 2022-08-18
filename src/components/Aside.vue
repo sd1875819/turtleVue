@@ -27,7 +27,8 @@
 </template>
 
 <script>
-  import request from "@/assets/utils/request";
+  import request from "@/assets/utils/request"
+
 
   export default {
     name: "Aside",
@@ -40,11 +41,11 @@
       let userStr = sessionStorage.getItem("user") || "{}"
       this.user = JSON.parse(userStr);/*将获取的用户信息的json串转成user对象*/
       /*!//请求服务端，基于用户的id确认当前登录用户的合法信息，否则用户可通过直接修改浏览器缓存数据的权限控制菜单栏的显示*/
-/*      request.get("/user/" + this.user.id).then(res =>{
+      request.get("/user/" + this.user.id).then(res =>{
         if (res.code === '0') {
-          this.user = res.data  /!*获取到用户最新的信息后给user重新赋值*!/
+          this.user = res.data  /*获取到用户最新的信息后给user重新赋值*/
         }
-      })*/
+      })
     }
   }
 </script>

@@ -46,7 +46,7 @@ export default {
                 message: "登陆成功"
               })
               sessionStorage.setItem("user", JSON.stringify(res.data))  /*用户登陆成功后缓存用户信息,该缓存信息可供其他页面查询获取，比如News里可从该处直接获取发帖人的用户名*/
-              this.$router.push("/") /*登陆成功后自动进行页面跳转到指定页面，this.$router.push()是vue里的页面自动跳转实现方法*/
+              this.$router.push("/user") /*登陆成功后自动进行页面跳转到指定页面，this.$router.push()是vue里的页面自动跳转实现方法*/
             } else {
               this.$message({  /*执行新增成功后给一个弹窗提示*/
                 type: "error",

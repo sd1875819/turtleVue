@@ -16,11 +16,19 @@
 import Aside from "@/components/Aside";
 import Header from "@/components/Header";
 
+import router from "@/router";
+
 export default {
   name: "Layout",
   components:{
     Aside,
     Header
+  },
+  created() {
+    let userJson = sessionStorage.getItem("user")
+    if (!userJson) {  //userJson是空就表明用户没有登陆，就强制跳转到登陆界面，不让用户直接进入后台页面
+      router.push("/login")
+    }
   }
 }
 </script>

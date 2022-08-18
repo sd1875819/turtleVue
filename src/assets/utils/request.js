@@ -1,6 +1,6 @@
 /*封装axios数据访问的插件*/
 import axios from 'axios'
-import router from "@/router";
+// import router from "@/router";
 
 const request = axios.create({
     baseURL: '/api',  // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
@@ -14,11 +14,13 @@ request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
 
     // config.headers['token'] = user.token;  // 设置请求头
+/* 不要在request里设置路由，路由都在各自页面里进行，该处的引入会导致组件被重复路由导致组件无法展示，该出导致了User.vue页面里侧边栏里引入request后无法显示侧边栏
     //取出sessionStorage里面缓存的用户信息
     let userJson = sessionStorage.getItem("user")
     if (!userJson) {  //userJson是空就表明用户没有登陆，就强制跳转到登陆界面，不让用户直接进入后台页面
         router.push("/login")
     }
+*/
     return config
 }, error => {
     return Promise.reject(error)

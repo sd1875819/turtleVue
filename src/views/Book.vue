@@ -17,14 +17,14 @@
         <!--数据表格展示区域-->
         <el-table :data="tableData" border stripe style="width: 100%"> <!-- 定义表格的数据变量源:data="tableData"，及整体样式-->
             <el-table-column prop="id" label="ID" sortable width="80" /> <!-- 定义表格每一列的属性prop，即属性的key，列名label和宽度width-->
-            <el-table-column prop="name" label="名称" width="200" />
+            <el-table-column prop="name" label="名称" width="100" />
             <el-table-column prop="price" label="单价" width="100"/>
-            <el-table-column prop="author" label="作者" width="150"/>
-            <el-table-column prop="createTime" label="出版时间" width="300"/>
-            <el-table-column label="封面">   <!--上传的文件图片的展示组件，注意写法-->
+            <el-table-column prop="author" label="作者" width="100"/>
+            <el-table-column prop="createTime" label="出版时间" width="100"/>
+            <el-table-column label="封面" width="200">   <!--上传的文件图片的展示组件，注意写法-->
                 <template #default="scope">
                     <el-image
-                            style="width: 100px; height: 100px"
+                            style="width: 50px; height: 50px"
                             :src="scope.row.cover"
                             :preview-src-list="[scope.row.cover]"
                     />

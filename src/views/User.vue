@@ -21,8 +21,8 @@
       <el-table-column prop="nickName" label="昵称" width="100"/>
       <el-table-column prop="age" label="年龄" width="100"/>
       <el-table-column prop="sex" label="性别" width="100"/>
-      <el-table-column prop="address" label="地址" width="400"/>
-      <el-table-column label="角色">
+      <el-table-column prop="address" label="地址" width="250"/>
+      <el-table-column label="角色" width="100">
         <template #default="scope">
           <span v-if="scope.row.role === 1">管理员</span>
           <span v-if="scope.row.role === 2">普通用户</span>
