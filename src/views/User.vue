@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">  <!--在操作栏内，使用默认template获取了表格的行内数据scope-->
-          <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入行数据scope.row-->
+          <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>  <!--向编辑方法传入整行的数据scope.row-->
           <el-popconfirm title="你确定删除吗?" @confirm="handleDelete(scope.row.id)"> <!--删除是在二次确认按钮上执行的，根据Element plus上删除组件的使用方法，加一个confirm调用对应方法即可-->
             <template #reference>
               <el-button type="text">删除</el-button> <!-- type="text"将该按钮以文本的形式展示，danger是以按钮的形式展示。因为删除是根据组件删除，所以只需传入id即可-->
@@ -54,8 +54,8 @@
       />
 <!--新增用户信息的弹窗功能，放到最外层div中即可，作为一个独立的组件进行调用，通过参数dialogVisible为ture或者false控制弹窗的展示及隐藏-->
 <!--因为该组件使用到了参数dialogVisible，所以需要在data(){}中定义该参数-->
-    <el-dialog v-model="dialogVisible" title="提示" width="30%">
-      <el-form :model="form" label-width="120px">  <!-- :model="form"表示定义新增用户信息弹窗里的表格的数据对象form，form与弹窗中的各个参数进行绑定，各参数值直接保存到form中-->
+    <el-dialog v-model="dialogVisible" title="提示" width="30%"> <!--定义弹窗组件，dialogVisible负责控制弹窗是否展示-->
+      <el-form :model="form" label-width="120px">  <!-- 定义一个form列表，:model="form"表示定义新增用户信息弹窗里的表格的数据对象form，form与弹窗中的各个参数进行绑定，各参数值直接保存到form中-->
         <el-form-item label="用户名">
           <el-input v-model="form.username" style="width: 80%"/> <!--当在弹窗的输入框输入内容，就会将内容值绑定到form里面-->
         </el-form-item>

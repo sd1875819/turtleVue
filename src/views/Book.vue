@@ -22,12 +22,12 @@
             <el-table-column prop="author" label="作者" width="100"/>
             <el-table-column prop="createTime" label="出版时间" width="100"/>
             <el-table-column label="封面" width="200">   <!--上传的文件图片的展示组件，注意写法-->
-                <template #default="scope">
+                <template #default="scope">    <!--#default="scope"用于获取行数据，因为如果直接在el-table-column组件里显示参数值，可直接定义prop参数，从:data获取值，但是该处是在el-table-column组件里需要再绘制一个子view，所以要先用templete包裹起来，然后通过#default="scope"获取行数据，然后子view从scop中获取值，而不能直接定义一个prop从data中获取值-->
                     <el-image
                             style="width: 50px; height: 50px"
                             :src="scope.row.cover"
-                            :preview-src-list="[scope.row.cover]"
-                    />
+                            :preview-src-list="[scope.row.cover]">
+                    </el-image>
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="200">
