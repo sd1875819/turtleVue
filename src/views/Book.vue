@@ -4,8 +4,11 @@
         <!--页面功能区域-->
         <div style="margin: 10px 0"> <!--style中设置div这个组件的样式，间距为上下10px，左右0-->
             <el-button type="primary" @click="add">新增</el-button>
-            <el-button type="primary">导入</el-button>
-            <el-button type="primary">导出</el-button>
+            <el-popconfirm title="确认删除吗？" @confirm="deleteBatch">
+              <template #reference>
+                <el-button type="danger" v-if="user.role === 1">批量删除</el-button>
+              </template>
+            </el-popconfirm>
         </div>
         <!--页面搜索区域-->
         <div style="margin: 10px 0">
@@ -15,7 +18,8 @@
             <el-button type="primary" style="margin-left: 5px" @click="load">查询</el-button><!-- type="primary"设置组件颜色为蓝色，style="margin-left: 5px"设置距左组件的距离-->
         </div>
         <!--数据表格展示区域-->
-        <el-table :data="tableData" border stripe style="width: 100%"> <!-- 定义表格的数据变量源:data="tableData"，及整体样式-->
+        <el-table :data="tableData" border stripe style="width: 100%" @selection-change="handleSelectionChange"> <!-- 定义表格的数据变量源:data="tableData"，及整体样式-->
+            <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="ID" sortable width="80" /> <!-- 定义表格每一列的属性prop，即属性的key，列名label和宽度width-->
             <el-table-column prop="name" label="名称" width="100" />
             <el-table-column prop="price" label="单价" width="100"/>
@@ -105,9 +109,8 @@
                 currentPage: 1, /*定义分页组件的参数当前页currentPage、每页显示条数pageSize及请求到的数据总条数total以及给定其默认值*/
                 pageSize: 10,
                 total: 0,
-                tableData: [
-
-                ]
+                tableData: [],
+                ids: []  /*选择的需要删除的id的数组，可同时删除多行*/
             }
         },
         created() { /*页面刷新加载时自动调用load()方法获取查询数据*/
@@ -115,6 +118,23 @@
         },
         /*  methods中定义tableData里调用到的函数方法*/
         methods: {
+            deleteBatch() {
+              if (!this.ids.length) { //先判断要删除的多行数据的id的集合参数ids的数组长度
+                this.$message.warning("请选择数据！")
+                return
+              }
+              request.post("/book/deleteBatch", this.ids).then(res => {
+                if (res.code === '0') {
+                  this.$message.success("批量删除成功")
+                  this.load()
+                } else {
+                  this.$message.error(res.msg)
+                }
+              })
+            },
+            handleSelectionChange(val) { /*val就是用户在进行批量删除时选中的所有的行对象，包含选中的每一行的所有的属性值*/
+              this.ids = val.map(v => v.id)  /*因为批量删除是根据id删除的，所以该处从选中的行中取出每一行的id，注意该处使用的是map方法获取，map可以将对象变成单个属性的集合取出的id传给ids数组保存*/
+            },
             filesUpladSuccess(res) {
                 console.log(res)
                 this.form.cover = res.data  /*给cover参数赋值，将cover值通过form对象传给后台进行存储*/
