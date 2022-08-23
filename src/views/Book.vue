@@ -4,9 +4,9 @@
         <!--页面功能区域-->
         <div style="margin: 10px 0"> <!--style中设置div这个组件的样式，间距为上下10px，左右0-->
             <el-button type="primary" @click="add">新增</el-button>
-            <el-popconfirm title="确认删除吗？" @confirm="deleteBatch">
+            <el-popconfirm title="确认删除吗？" @confirm="deleteBatch">  <!--点击确认删除按钮时，调用deleteBatch函数-->
               <template #reference>
-                <el-button type="danger" v-if="user.role === 1">批量删除</el-button>
+                <el-button type="danger">批量删除</el-button>
               </template>
             </el-popconfirm>
         </div>
@@ -119,11 +119,11 @@
         /*  methods中定义tableData里调用到的函数方法*/
         methods: {
             deleteBatch() {
-              if (!this.ids.length) { //先判断要删除的多行数据的id的集合参数ids的数组长度
-                this.$message.warning("请选择数据！")
+              if (!this.ids.length) { /*先判断要删除的多行数据的id的集合参数ids的数组长度，既判断有没有选择至少一行要删除的内容*/
+                this.$message.warning("请选择数据！") /*没有任何选择时，弹出提示信息*/
                 return
               }
-              request.post("/book/deleteBatch", this.ids).then(res => {
+              request.post("/book/deleteBatch", this.ids).then(res => {  /*将要删除的ids数组直接一次性传给后台*/
                 if (res.code === '0') {
                   this.$message.success("批量删除成功")
                   this.load()
@@ -133,7 +133,7 @@
               })
             },
             handleSelectionChange(val) { /*val就是用户在进行批量删除时选中的所有的行对象，包含选中的每一行的所有的属性值*/
-              this.ids = val.map(v => v.id)  /*因为批量删除是根据id删除的，所以该处从选中的行中取出每一行的id，注意该处使用的是map方法获取，map可以将对象变成单个属性的集合取出的id传给ids数组保存*/
+              this.ids = val.map(v => v.id)  /*因为批量删除是根据id删除的，所以该处从选中的行中取出每一行的id，注意该处使用的是map方法获取，map可以将对象变成单个属性的集合[{id,name,price},{id,name,price}] => [id,id],取出的id传给ids数组保存*/
             },
             filesUpladSuccess(res) {
                 console.log(res)
