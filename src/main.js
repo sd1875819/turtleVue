@@ -9,4 +9,5 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 createApp(App).use(store).use(router).use(ElementPlus).use(ElementPlus, {locale: zhCn, size: 'mini'}).mount('#app')
 
-/*各种第三方组件的引入，类似java的pom文件。先import，然后再use一下即可*/
+/*main.js是工程入口文件,主要作用是初始化vue实例,并引入所需要的插件，类似java的Application文件。*/
+/*初始化的方式是先import，然后再use一下即可*/
