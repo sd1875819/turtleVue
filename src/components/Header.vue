@@ -7,7 +7,7 @@
     <div style="width: 100px">
         <el-dropdown>
           <span class="el-dropdown-link" style="margin: 20px">
-            <el-avatar :size="30" :src="user.avatar" style="position: relative; top: 10px"></el-avatar>
+            <el-avatar :size="30" :src="user.avatar" style="position: relative; top: 10px"></el-avatar>  <!--头部显示用户登陆后的昵称-->
             {{ user.nickName }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
