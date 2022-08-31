@@ -6,7 +6,9 @@
     <div style="flex:  1"></div>
     <div style="width: 100px">
         <el-dropdown>
-          <span class="el-dropdown-link" style="margin: 20px">张三
+          <span class="el-dropdown-link" style="margin: 20px">
+            <el-avatar :size="30" :src="user.avatar" style="position: relative; top: 10px"></el-avatar>
+            {{ user.nickName }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>
@@ -24,6 +26,7 @@
 <script>
 export default {
     name: "Header",
+    props: ['user'],
     methods: {
         exit() {
             this.$router.push('/login')  /*点击退出登陆时直接跳转到登陆页面*/

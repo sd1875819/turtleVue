@@ -37,7 +37,7 @@
         path: this.$route.path  /*设置默认高亮的菜单*/
       }
     },
-    created() { /*从浏览器缓存的用户信息的json串，*/
+    created() { /*从浏览器缓存的用户信息的json串获取用户信息*/
       let userStr = sessionStorage.getItem("user") || "{}"
       this.user = JSON.parse(userStr);/*将获取的用户信息的json串转成user对象*/
       /*!//请求服务端，基于用户的id确认当前登录用户的合法信息，否则用户可通过直接修改浏览器缓存数据的权限控制菜单栏的显示*/

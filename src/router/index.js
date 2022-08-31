@@ -7,11 +7,11 @@ const routes = [
     redirect: "/",  /!*redirect是路由重定向，表示当访问带'/'根目录前台地址时，会自动重定向到/home地址上，这样就实现了项目启动后自动打开路由配置为/home里component指定的页面*!/
   },*/
   {
-    path: '/',
+    path: '/', /*path是一个/表示url里的根目录*/
     name: 'User',
     component: Layout,
-    /*children里放嵌套路由，即将chileren里component指定的User页面嵌套到上一层路由/home里的component指定的Layout框架页面里，
-    即Layout是布局好了头部、侧边栏并且给主页面预留了位置(见Layout.vue文件备注)，该处嵌套的意识就是把主页面放到Layout框架页里的预留位置处进行统一展示*/
+    /*children里放嵌套路由，即将chileren里component指定的页面嵌套到上一层路由里的component指定的Layout框架页面里，
+    即Layout是布局好了头部、侧边栏并且给主页面预留了位置(见Layout.vue文件备注)，该处嵌套的意思就是把主页面放到Layout框架页里的预留位置处进行统一展示*/
     children: [  /*嵌套路由就是访问上一层里的path+children里的path就可以访问children里component指定的页面嵌套到上一层的component页面里的总页面了，即包含了头部、侧边栏即主体的页面*/
       {
         /*注意，嵌套路由里不需要再加'/'，该处加上'/'后就变成根目录了，就跟上一层的/home平级，
@@ -24,12 +24,12 @@ const routes = [
       {
         path: 'book',
         name: 'Book',
-        component: () => import("@/views/Book"),  /*，该处是导入页面的另外一种方式，将User界面进行二次路由导入*/
+        component: () => import("@/views/Book"),
       },
       {
         path: 'news',
         name: 'News',
-        component: () => import("@/views/News"),  /*，该处是导入页面的另外一种方式，将User界面进行二次路由导入*/
+        component: () => import("@/views/News"),
       },
     ]
   },
