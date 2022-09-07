@@ -8,7 +8,7 @@
         <el-dropdown>
           <span class="el-dropdown-link" style="margin: 20px">
             <el-avatar :size="30" style="position: relative; top: 10px"></el-avatar>  <!--头部显示用户登陆后的昵称-->
-<!--            {{ userStr.nickName }}-->
+           {{ userInfo.nickName }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <template #dropdown>
@@ -31,11 +31,18 @@ export default {
     data() {
       return {
         user: {},
+        userInfo: {}
       }
     },
     created() { /*从浏览器缓存的用户信息的json串获取用户信息*/
-      let userStr = sessionStorage.getItem("user") || "{}"
-      console.log("..........................." + userStr)
+      const userInfo = sessionStorage.getItem("user")
+
+        try {
+          this.userInfo = JSON.parse(userInfo)
+        } catch (e) {
+          this.userInfo = {}
+        }
+      console.log("...........................")
     },
     methods: {
         exit() {
