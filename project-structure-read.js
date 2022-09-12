@@ -10,11 +10,11 @@
 *
 * (2)工程结构：
 * a、assets文件夹中存放静态资源：css、工具js等， request.js封装了axios数据访问的插件，前端要发起get、post等请求时就可以直接调用request.xxx即可
-* b、components文件夹中组件
+* b、components文件夹中存放页面公共组件
 * c、router文件夹中存放路由配置文件index.js（将路径跟页面做映射，通过路径访问页面）
 * d、store文件夹中定义页面的变量，页面跳转携带的参数、临时存储数据等
-* e、views文件夹中存放视图存储位置
-* f、main.js文件是各种配置项的引入，类似java工程的pom文件
+* e、views文件夹中存放各页面的主体部分
+* f、main.js是工程入口文件,主要作用是初始化vue实例,并引入所需要的插件，类似java的Application文件
 * g、vue.config.js文件是跨域文件，解决前端请求对应的服务端接口的跨域问题
 * h、package.json文件是记录项目中所有依赖的组件，通过该文件下载引入。  "scripts": 中配置工程启动("vue-cli-service serve --open" 可自动打开浏览器页面)
 *
@@ -51,12 +51,14 @@
 * e、重定向未生效，需要再学习
 *
 * f、为什么图片展示只能用#default="scope"获取行数据再取出的方式，不能像其他列一样使用prop直接从data中获取：
-*   自己学习后的回答：因为如果直接在列表组件里显示参数值（比如el-table列表的每一列el-table-column中直接显示），可直接定义每一列的prop参数从:data中获取值展示，但是如果需要再在组件里绘制一个子view组件（例如Book里面在最后一列el-table-column里需要再添加一个图片显示的组件)，就要先用templete把子组件包裹起来，然后通过#default="scope"获取这一行的数据，然后子组件从scop中获取值，而不能直接像定义一个prop从data中获取值
+*   自己学习后的回答：因为如果直接在列表组件里显示参数值（比如el-table列表的每一列el-table-column中直接显示），
+*   可直接定义每一列的prop参数从:data中获取值展示，但是如果需要再在组件里绘制一个子view组件（例如Book里面在最后一列el-table-column里需要再添加一个图片显示的组件)，
+*   就要先用templete把子组件包裹起来，然后通过#default="scope"获取这一行的数据，然后子组件从scop中获取值，而不能直接像定义一个prop从data中获取值
 *
 *（6）关于页面的各种参数：
 * a、只有table跟form组件中会定义参数对象，然后在table表格或者form表单内部的子组件每一列或每一行的参数名。该情况只在data()(return中定义参数对象即可)
 * b、一些组件如弹窗el-dialog，会在view中定义控制组件显示还是隐藏的参数，同时在data()(return中定义该参数，并确认初始值)
-*c、其他的参数直接在data()(return中定义)，然后在需要的地方使用this.xxx赋值，然后在组件中直接调用即可
+* c、其他的参数直接在data()(return中定义)，然后在需要的地方使用this.xxx赋值，然后在组件中直接调用即可
 *
 *
 *
