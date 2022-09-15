@@ -85,7 +85,7 @@
 
     let editor; /*设置全局编辑器对象*/
 
-    export default {
+    export default {  /*this表示整个export的对象，export里面定义的所有的方法、参数等都可以使用this.xxx的方式调用*/
         name: 'News',
         components: {
 
